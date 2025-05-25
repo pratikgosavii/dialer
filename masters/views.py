@@ -1,0 +1,190 @@
+from django.http import JsonResponse
+from django.shortcuts import render
+
+
+# Create your views here.
+
+
+from .models import *
+from .forms import *
+from .filters import *
+from django.contrib.auth.decorators import login_required
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.http.response import HttpResponseRedirect
+from .serializers import *
+
+from users.permissions import *
+
+from rest_framework.generics import ListAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+
+
+
+
+@login_required(login_url='login_admin')
+def add_coupon(request):
+
+    if request.method == 'POST':
+
+        forms = coupon_Form(request.POST, request.FILES)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_coupon')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+            return render(request, 'add_coupon.html', context)
+    
+    else:
+
+        forms = coupon_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'add_coupon.html', context)
+
+        
+
+@login_required(login_url='login_admin')
+def update_coupon(request, coupon_id):
+
+    if request.method == 'POST':
+
+        instance = coupon.objects.get(id=coupon_id)
+
+        forms = coupon_Form(request.POST, request.FILES, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_coupon')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = coupon.objects.get(id=coupon_id)
+        forms = coupon_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'add_coupon.html', context)
+
+        
+
+@login_required(login_url='login_admin')
+def delete_coupon(request, coupon_id):
+
+    coupon.objects.get(id=coupon_id).delete()
+
+    return HttpResponseRedirect(reverse('list_coupon'))
+
+
+@login_required(login_url='login_admin')
+def list_coupon(request):
+
+    data = coupon.objects.all()
+    context = {
+        'data': data
+    }
+    return render(request, 'list_coupon.html', context)
+
+
+
+
+
+def add_home_banner(request):
+    
+    if request.method == "POST":
+
+        forms = home_banner_Form(request.POST, request.FILES)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_home_banner')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+
+            return render(request, 'add_home_banner.html', context)
+    
+    else:
+
+        # create first row using admin then editing only
+
+        
+
+        return render(request, 'add_home_banner.html', { 'form' : home_banner_Form()})
+
+def update_home_banner(request, home_banner_id):
+    
+    instance = home_banner.objects.get(id = home_banner_id)
+
+    if request.method == "POST":
+
+
+        instance = home_banner.objects.get(id=home_banner_id)
+
+        forms = home_banner_Form(request.POST, request.FILES, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_home_banner')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+
+            return render(request, 'add_home_banner.html', context)
+
+    
+    else:
+
+        # create first row using admin then editing only
+
+        forms = home_banner_Form(instance=instance)
+                
+        context = {
+            'form': forms
+        }
+
+        return render(request, 'add_home_banner.html', context)
+
+
+def list_home_banner(request):
+
+    data = home_banner.objects.all()
+
+    return render(request, 'list_home_banner.html', {'data' : data})
+
+
+def delete_home_banner(request, home_banner_id):
+
+    data = home_banner.objects.get(id = home_banner_id).delete()
+
+    return redirect('list_home_banner')
+
+
+from django.views import View
+
+def get_home_banner(request):
+  
+    filtered_qs = home_bannerFilter(request.GET, queryset=home_banner.objects.all()).qs
+
+    serialized_data = HomeBannerSerializer(filtered_qs, many=True, context={'request': request}).data
+    return JsonResponse({"data": serialized_data}, status=200)
+
+
