@@ -15,14 +15,12 @@ from django.conf.urls.static import static
 
 from rest_framework.routers import DefaultRouter
 
-router = DefaultRouter()
 
 router = DefaultRouter()
-router.register(r'user/profile', UserProfileViewSet, basename='user-profile')
+router.register(r'profile', UserProfileViewSet, basename='user-profile')
 
 
 urlpatterns = [
-    path('login/', LoginAPIView.as_view(), name='login'),
     path('login-admin/', login_admin, name='login_admin'),
     path('signup/', SignupView.as_view(), name='signup'),
     

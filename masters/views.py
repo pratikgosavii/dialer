@@ -188,3 +188,80 @@ def get_home_banner(request):
     return JsonResponse({"data": serialized_data}, status=200)
 
 
+
+
+
+def add_faq(request):
+    
+    if request.method == "POST":
+
+        forms = FAQForm(request.POST, request.FILES)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_faq')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+
+            return render(request, 'add_faq.html', context)
+    
+    else:
+
+        # create first row using admin then editing only
+
+        
+
+        return render(request, 'add_faq.html', { 'form' : FAQForm()})
+
+def update_faq(request, faq_id):
+    
+    instance = FAQ.objects.get(id = faq_id)
+
+    if request.method == "POST":
+
+
+        instance = FAQ.objects.get(id=faq_id)
+
+        forms = FAQForm(request.POST, request.FILES, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_faq')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+
+            return render(request, 'add_faq.html', context)
+
+    
+    else:
+
+        # create first row using admin then editing only
+
+        forms = FAQForm(instance=instance)
+                
+        context = {
+            'form': forms
+        }
+
+        return render(request, 'add_faq.html', context)
+
+
+def list_faq(request):
+
+    data = FAQ.objects.all()
+
+    return render(request, 'list_faq.html', {'data' : data})
+
+
+def delete_faq(request, faq_id):
+
+    data = FAQ.objects.get(id = faq_id).delete()
+
+    return redirect('list_faq')
+

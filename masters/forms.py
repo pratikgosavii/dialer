@@ -42,3 +42,27 @@ class home_banner_Form(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
 
         }
+
+
+
+
+
+from django import forms
+from .models import FAQ
+
+class FAQForm(forms.ModelForm):
+    class Meta:
+        model = FAQ
+        fields = ['question', 'answer', 'is_active']
+        widgets = {
+            'question': forms.TextInput(attrs={
+                'class': 'form-control', 'placeholder': 'Enter your question'
+            }),
+            'answer': forms.Textarea(attrs={
+                'class': 'form-control', 'placeholder': 'Enter the answer', 'rows': 3
+            }),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+
+

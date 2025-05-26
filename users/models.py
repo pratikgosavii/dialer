@@ -40,33 +40,34 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
 
     firebase_uid = models.CharField(max_length=128, unique=True, null=True, blank=True)
-    
     mobile = models.CharField(max_length=15, unique=True)
+
+    # Add these two new fields
+    name = models.CharField(max_length=100, null=True, blank=True)
+    language = models.CharField(max_length=50, null=True, blank=True)
+
     email = models.EmailField(
         null=True,
         blank=True,
         validators=[EmailValidator(message="Enter a valid email address.")]
     )
 
-    # Remove username field, use mobile instead
+    # Remove username field
     username = None
     USERNAME_FIELD = 'mobile'
     REQUIRED_FIELDS = []
 
-    # Profile Info
     profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     marital_status = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
 
-    # Social Media (Optional fields)
     facebook = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)
     linkedin = models.URLField(null=True, blank=True)
     twitter = models.URLField(null=True, blank=True)
 
-    # Professional
     profession = models.CharField(max_length=100, null=True, blank=True)
     income = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 

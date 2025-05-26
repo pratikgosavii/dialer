@@ -96,59 +96,34 @@ class SignupView(APIView):
 
 
 
-class LoginAPIView(APIView):
-    def post(self, request):
-        id_token = request.data.get("idToken")
-        if not id_token:
-            return Response({"error": "idToken is required"}, status=400)
-
-        try:
-            decoded_token = firebase_auth.verify_id_token(id_token)
-            uid = decoded_token.get("uid")
-            phone_number = decoded_token.get("phone_number")
-
-            if not phone_number:
-                return Response({"error": "Phone number not found in token"}, status=400)
-
-            user = User.objects.filter(mobile=phone_number).first()
-
-            if not user:
-                return Response({"error": "No user found. Please sign up first."}, status=401)
-
-            if user.firebase_uid != uid:
-                user.firebase_uid = uid
-                user.save()
-
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                "access": str(refresh.access_token),
-                "refresh": str(refresh),
-                "user": {
-                    "id": user.id,
-                    "mobile": user.mobile,
-                    "created": False
-                }
-            })
-
-        except Exception:
-            return Response({"error": "Invalid or expired Firebase token."}, status=401)
-        
-
 
 
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 from .serializer import UserProfileSerializer
 from .models import User
+from rest_framework.decorators import action
 
-class UserProfileViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.UpdateModelMixin):
-    serializer_class = UserProfileSerializer
+
+class UserProfileViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
-    def get_object(self):
-        # Always return the logged-in user
-        return self.request.user
-    
+    @action(detail=False, methods=['get', 'put'], url_path='me')
+    def me(self, request):
+        user = request.user
+
+        if request.method == 'GET':
+            serializer = UserProfileSerializer(user)
+            return Response(serializer.data)
+
+        elif request.method == 'PUT':
+            serializer = UserProfileSerializer(user, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 from .permissions import *

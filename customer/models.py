@@ -12,6 +12,23 @@ class ScamComplaint(models.Model):
         ('other', 'Other'),
     ]
 
+    SOCIAL_MEDIA_CHOICES = [
+        ('facebook', 'Facebook'),
+        ('instagram', 'Instagram'),
+        ('linkedin', 'LinkedIn'),
+        ('twitter', 'Twitter'),
+        ('telegram', 'Telegram'),
+        ('whatsapp', 'WhatsApp'),
+        ('other', 'Other'),
+    ]
+
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('in_review', 'In Review'),
+        ('resolved', 'Resolved'),
+        ('rejected', 'Rejected'),
+    ]
+
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="scam_complaints")
     name = models.CharField(max_length=255)
     website = models.URLField(blank=True, null=True)
@@ -22,8 +39,9 @@ class ScamComplaint(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     description = models.TextField()
 
-    social_media_links = models.TextField(
-        help_text="Comma-separated links/IDs for Facebook, Instagram, etc.", blank=True, null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    
+    social_media = models.CharField(max_length=50, choices=SOCIAL_MEDIA_CHOICES)
 
     is_resolved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
