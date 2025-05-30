@@ -33,7 +33,15 @@ urlpatterns = [
     path('update-faq/<faq_id>', update_faq, name='update_faq'),  # create or fetch list of admins
     path('list-faq/', list_faq, name='list_faq'),  # create or fetch list of admins
     path('delete-faq/<faq_id>', delete_faq, name='delete_faq'),  # create or fetch list of admins
+    path('faqs/', FAQListAPIView.as_view(), name='faq-list-api'),
 
+
+    
+    path('add-scam-category/', add_scam_category, name='add_scam_category'),  # create or fetch list of admins
+    path('update-scam-category/<scam_category_id>', update_scam_category, name='update_scam_category'),  # create or fetch list of admins
+    path('list-scam-category/', list_scam_category, name='list_scam_category'),  # create or fetch list of admins
+    path('delete-/<scam_category_id>', delete_scam_category, name='delete_scam_category'),  # create or fetch list of admins
+    path('scam-category/', scamcategory.as_view(), name='scam-category'),
 
 
 ]  + router.urls

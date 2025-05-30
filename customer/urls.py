@@ -12,6 +12,9 @@ urlpatterns = router.urls + [
 
 
     
+    path('search-user/', SearchUserView.as_view(), name='SearchUserView'),  # create or fetch list of admins
+
+
     path('add-complaint/', add_complaint, name='add_complaint'),  # create or fetch list of admins
     path('update-complaint/<complaint_id>', update_complaint, name='update_complaint'),  # create or fetch list of admins
     path('list-complaint/', list_complaint, name='list_complaint'),  # create or fetch list of admins

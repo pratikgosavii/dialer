@@ -265,3 +265,100 @@ def delete_faq(request, faq_id):
 
     return redirect('list_faq')
 
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import FAQ
+from .serializers import FAQSerializer
+
+
+class FAQListAPIView(APIView):
+    def get(self, request):
+        faqs = FAQ.objects.all()
+        serializer = FAQSerializer(faqs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+def add_scam_category(request):
+    
+    if request.method == "POST":
+
+        forms = ScamCategoryForm(request.POST, request.FILES)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_scam_category')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+
+            return render(request, 'add_scam_category.html', context)
+    
+    else:
+
+        # create first row using admin then editing only
+
+        
+
+        return render(request, 'add_scam_category.html', { 'form' : ScamCategoryForm()})
+
+def update_scam_category(request, scam_category_id):
+    
+    instance = ScamCategory.objects.get(id = scam_category_id)
+
+    if request.method == "POST":
+
+
+        instance = ScamCategory.objects.get(id=scam_category_id)
+
+        forms = ScamCategoryForm(request.POST, request.FILES, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_scam_category')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+
+            return render(request, 'add_scam_category.html', context)
+
+    
+    else:
+
+        # create first row using admin then editing only
+
+        forms = ScamCategoryForm(instance=instance)
+                
+        context = {
+            'form': forms
+        }
+
+        return render(request, 'add_scam_category.html', context)
+
+
+def list_scam_category(request):
+
+    data = ScamCategory.objects.all()
+
+    return render(request, 'list_scam_category.html', {'data' : data})
+
+
+def delete_scam_category(request, scam_category_id):
+
+    data = ScamCategory.objects.get(id = scam_category_id).delete()
+
+    return redirect('list_scam_category')
+
+
+
+class scamcategory(APIView):
+    def get(self, request):
+        faqs = ScamCategory.objects.all()
+        serializer = ScamCategorySerializer(faqs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

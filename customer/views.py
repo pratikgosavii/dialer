@@ -156,3 +156,26 @@ def delete_proof(request, pk):
 
     # Redirect using reverse and URL name
     return redirect(reverse('update_complaint', kwargs={'complaint_id': complaint_id}))
+
+
+
+
+from rest_framework import status
+from django.db.models import Q
+from .models import User
+from users.serializer import UserProfileSerializer
+
+class SearchUserView(APIView):
+    permission_classes = [IsAuthenticated]  # Optional: remove if public
+
+    def get(self, request):
+        query = request.query_params.get('q', '')
+        if not query:
+            return Response({"error": "Query parameter 'q' is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        User.objects.filter(
+            Q(mobile__istartswith=query) | Q(name__istartswith=query)
+        ).only('id', 'name', 'mobile', 'profile_photo')[:20]
+
+        serialized_users = UserProfileSerializer(User, many=True)
+        return Response(serialized_users.data)

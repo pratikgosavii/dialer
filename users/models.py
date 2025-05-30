@@ -40,10 +40,10 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
 
     firebase_uid = models.CharField(max_length=128, unique=True, null=True, blank=True)
-    mobile = models.CharField(max_length=15, unique=True)
+    mobile = models.CharField(max_length=15, unique=True, db_index=True)
 
     # Add these two new fields
-    name = models.CharField(max_length=100, null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True, db_index=True)
     language = models.CharField(max_length=50, null=True, blank=True)
 
     email = models.EmailField(

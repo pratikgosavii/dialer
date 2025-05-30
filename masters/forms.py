@@ -50,6 +50,16 @@ class home_banner_Form(forms.ModelForm):
 from django import forms
 from .models import FAQ
 
+class ScamCategoryForm(forms.ModelForm):
+    class Meta:
+        model = ScamCategory
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'placeholder': 'Enter your question'
+            }),
+        }
+
 class FAQForm(forms.ModelForm):
     class Meta:
         model = FAQ

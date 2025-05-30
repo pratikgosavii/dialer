@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class ScamComplaint(models.Model):
     CATEGORY_CHOICES = [
         ('phishing', 'Phishing'),
@@ -36,7 +37,6 @@ class ScamComplaint(models.Model):
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     description = models.TextField()
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')

@@ -22,3 +22,16 @@ class HomeBannerSerializer(serializers.ModelSerializer):
         if request:
             return request.build_absolute_uri(obj.image.url)
         return obj.image.url
+    
+
+
+class FAQSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQ
+        fields = '__all__'
+
+
+class ScamCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ScamCategory
+        fields = '__all__'

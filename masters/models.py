@@ -65,3 +65,8 @@ class FAQ(models.Model):
         return self.question
     
     
+
+    
+class ScamCategory(models.Model):
+
+    name = models.CharField(max_length=255)
