@@ -37,6 +37,7 @@ class ScamComplaint(models.Model):
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
+    category = models.ForeignKey("masters.ScamCategory", on_delete=models.CASCADE)
     description = models.TextField()
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
