@@ -37,14 +37,33 @@ MARITAL_STATUS_CHOICES = [
 from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator, EmailValidator
 from django.utils.translation import gettext_lazy as _
 
+LANGUAGE_CHOICES = [
+    ('english', 'English'),
+    ('hindi', 'Hindi'),
+    ('marathi', 'Marathi'),
+    ('gujarati', 'Gujarati'),
+    ('telugu', 'Telugu'),
+    ('other', 'Other'),
+    # Add more languages if needed
+]
+
+
 class User(AbstractUser):
+
+   
 
     firebase_uid = models.CharField(max_length=128, unique=True, null=True, blank=True)
     mobile = models.CharField(max_length=15, unique=True, db_index=True)
 
     # Add these two new fields
     name = models.CharField(max_length=100, null=True, blank=True, db_index=True)
-    language = models.CharField(max_length=50, null=True, blank=True)
+    language = models.CharField(
+        max_length=50,
+        choices=LANGUAGE_CHOICES,
+        null=True,
+        blank=True
+    )
+
 
     email = models.EmailField(
         null=True,
