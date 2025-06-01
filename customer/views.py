@@ -173,9 +173,9 @@ class SearchUserView(APIView):
         if not query:
             return Response({"error": "Query parameter 'q' is required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        User.objects.filter(
+        users = User.objects.filter(
             Q(mobile__istartswith=query) | Q(name__istartswith=query)
         ).only('id', 'name', 'mobile', 'profile_photo')[:20]
 
-        serialized_users = UserProfileSerializer(User, many=True)
+        serialized_users = UserProfileSerializer(users, many=True)
         return Response(serialized_users.data)
