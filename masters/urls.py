@@ -21,6 +21,22 @@ urlpatterns = [
     path('update-coupon/<coupon_id>', update_coupon, name='update_coupon'),
     path('delete-coupon/<coupon_id>', delete_coupon, name='delete_coupon'),
     path('list-coupon/', list_coupon, name='list_coupon'),
+    
+    path('add-occupation-category/', add_occupation_category, name='add_occupation_category'),
+    path('update-occupation-category/<occupation_category_id>', update_occupation_category, name='update_occupation_category'),
+    path('delete-occupation-category/<occupation_category_id>', delete_occupation_category, name='delete_occupation_category'),
+    path('list-occupation-category/', list_occupation_category, name='list_occupation_category'),
+    
+    
+    path('add-occupation-subcategory/', add_occupation_subcategory, name='add_subcategory_occupation'),
+    path('update-occupation-subcategory/<occupation_subcategory_id>', update_occupation_subcategory, name='update_occupation_subcategory'),
+    path('delete-occupation-subcategory/<occupation_subcategory_id>', delete_occupation_subcategory, name='delete_occupation_subcategory'),
+    path('list-occupation-subcategory/', list_occupation_subcategory, name='list_occupation_subcategory'),
+    
+    path('add-occupation/', add_occupation, name='add_occupation'),
+    path('update-occupation/<occupation_id>', update_occupation, name='update_occupation'),
+    path('delete-occupation/<occupation_id>', delete_occupation, name='delete_occupation'),
+    path('list-occupation/', list_occupation, name='list_occupation'),
 
 
     path('add-home-banner/', add_home_banner, name='add_home_banner'),  # create or fetch list of admins

@@ -41,6 +41,27 @@ class coupon(models.Model):
         return self.code
 
 
+class occupation_category(models.Model):
+    name = models.CharField(max_length=225, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class occupation_subcategory(models.Model):
+    category = models.ForeignKey("masters.occupation_category", on_delete=models.CASCADE)
+    name = models.CharField(max_length=225, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class occupation(models.Model):
+
+    category = models.ForeignKey("masters.occupation_category", on_delete=models.CASCADE)
+    subcategory = models.ForeignKey("masters.occupation_subcategory", on_delete=models.CASCADE)
+    name = models.CharField(max_length=225, blank=True, null=True)
+
+
 class home_banner(models.Model):
     title = models.CharField(max_length=225, blank=True, null=True)
     description = models.TextField(blank=True, null=True)

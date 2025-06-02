@@ -102,6 +102,226 @@ def list_coupon(request):
 
 
 
+@login_required(login_url='login_admin')
+def add_occupation_category(request):
+
+    if request.method == 'POST':
+
+        forms = occupation_category_Form(request.POST, request.FILES)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_occupation_category')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+            return render(request, 'add_occupation_category.html', context)
+    
+    else:
+
+        forms = occupation_category_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'add_occupation_category.html', context)
+
+        
+
+@login_required(login_url='login_admin')
+def update_occupation_category(request, occupation_category_id):
+
+    if request.method == 'POST':
+
+        instance = occupation_category.objects.get(id=occupation_category_id)
+
+        forms = occupation_category_Form(request.POST, request.FILES, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_occupation_category')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = occupation_category.objects.get(id=occupation_category_id)
+        forms = occupation_category_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'add_occupation_category.html', context)
+
+        
+
+@login_required(login_url='login_admin')
+def delete_occupation_category(request, occupation_category_id):
+
+    occupation_category.objects.get(id=occupation_category_id).delete()
+
+    return HttpResponseRedirect(reverse('list_occupation_category'))
+
+
+@login_required(login_url='login_admin')
+def list_occupation_category(request):
+
+    data = occupation_category.objects.all()
+    context = {
+        'data': data
+    }
+    return render(request, 'list_occupation_category.html', context)
+
+@login_required(login_url='login_admin')
+def add_occupation_subcategory(request):
+
+    if request.method == 'POST':
+
+        forms = occupation_subcategory_Form(request.POST, request.FILES)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_occupation_subcategory')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+            return render(request, 'add_occupation_subcategory.html', context)
+    
+    else:
+
+        forms = occupation_subcategory_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'add_occupation_subcategory.html', context)
+
+        
+
+@login_required(login_url='login_admin')
+def update_occupation_subcategory(request, occupation_subcategory_id):
+
+    if request.method == 'POST':
+
+        instance = occupation_subcategory.objects.get(id=occupation_subcategory_id)
+
+        forms = occupation_subcategory_Form(request.POST, request.FILES, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_occupation_subcategory')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = occupation_subcategory.objects.get(id=occupation_subcategory_id)
+        forms = occupation_subcategory_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'add_occupation_subcategory.html', context)
+
+        
+
+@login_required(login_url='login_admin')
+def delete_occupation_subcategory(request, occupation_subcategory_id):
+
+    occupation_subcategory.objects.get(id=occupation_subcategory_id).delete()
+
+    return HttpResponseRedirect(reverse('list_occupation_subcategory'))
+
+
+@login_required(login_url='login_admin')
+def list_occupation_subcategory(request):
+
+    data = occupation_subcategory.objects.all()
+    context = {
+        'data': data
+    }
+    return render(request, 'list_occupation_subcategory.html', context)
+
+
+@login_required(login_url='login_admin')
+def add_occupation(request):
+
+    if request.method == 'POST':
+
+        forms = occupation_Form(request.POST, request.FILES)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_occupation')
+        else:
+            print(forms.errors)
+            context = {
+                'form': forms
+            }
+            return render(request, 'add_occupation.html', context)
+    
+    else:
+
+        forms = occupation_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'add_occupation.html', context)
+
+        
+
+@login_required(login_url='login_admin')
+def update_occupation(request, occupation_id):
+
+    if request.method == 'POST':
+
+        instance = occupation.objects.get(id=occupation_id)
+
+        forms = occupation_Form(request.POST, request.FILES, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_occupation')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = occupation.objects.get(id=occupation_id)
+        forms = occupation_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'add_occupation.html', context)
+
+        
+
+@login_required(login_url='login_admin')
+def delete_occupation(request, occupation_id):
+
+    occupation.objects.get(id=occupation_id).delete()
+
+    return HttpResponseRedirect(reverse('list_occupation'))
+
+
+@login_required(login_url='login_admin')
+def list_occupation(request):
+
+    data = occupation.objects.all()
+    context = {
+        'data': data
+    }
+    return render(request, 'list_occupation.html', context)
+
+
+
+
 
 def add_home_banner(request):
     
