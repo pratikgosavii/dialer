@@ -49,6 +49,7 @@ class occupation_category(models.Model):
 
 
 class occupation_subcategory(models.Model):
+    
     category = models.ForeignKey("masters.occupation_category", on_delete=models.CASCADE)
     name = models.CharField(max_length=225, blank=True, null=True)
 

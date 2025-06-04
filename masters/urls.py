@@ -13,6 +13,10 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 # router.register(r'customer-address', customer_address_ViewSet, basename='pet-test-booking')
 
+router.register('occupation-categories', OccupationCategoryViewSet, basename='occupation-category')
+router.register('occupation-subcategories', OccupationSubcategoryViewSet, basename='occupation-subcategory')
+router.register('occupations', OccupationViewSet, basename='occupation')
+
 
 urlpatterns = [
 
@@ -26,7 +30,6 @@ urlpatterns = [
     path('update-occupation-category/<occupation_category_id>', update_occupation_category, name='update_occupation_category'),
     path('delete-occupation-category/<occupation_category_id>', delete_occupation_category, name='delete_occupation_category'),
     path('list-occupation-category/', list_occupation_category, name='list_occupation_category'),
-    
     
     path('add-occupation-subcategory/', add_occupation_subcategory, name='add_subcategory_occupation'),
     path('update-occupation-subcategory/<occupation_subcategory_id>', update_occupation_subcategory, name='update_occupation_subcategory'),

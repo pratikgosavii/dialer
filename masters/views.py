@@ -577,8 +577,25 @@ def delete_scam_category(request, scam_category_id):
 
 
 
+from .serializers import *
+from rest_framework import viewsets
+
+
 class scamcategory(APIView):
     def get(self, request):
         faqs = ScamCategory.objects.all()
         serializer = ScamCategorySerializer(faqs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class OccupationCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = occupation_category.objects.all()
+    serializer_class = OccupationCategorySerializer
+
+class OccupationSubcategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = occupation_subcategory.objects.all()
+    serializer_class = OccupationSubcategorySerializer
+
+class OccupationViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = occupation.objects.all()
+    serializer_class = OccupationSerializer

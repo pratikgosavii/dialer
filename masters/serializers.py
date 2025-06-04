@@ -2,6 +2,22 @@ from rest_framework import serializers
 from .models import *
 
 
+class OccupationCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = occupation_category
+        fields = ['id', 'name']
+
+class OccupationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = occupation
+        fields = ['id', 'name']
+
+class OccupationSubcategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = occupation_subcategory
+        fields = ['id', 'name']
+
+
 
 class coupon_serializer(serializers.ModelSerializer):
     class Meta:
