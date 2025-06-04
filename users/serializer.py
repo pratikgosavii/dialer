@@ -12,23 +12,26 @@ class UserProfileSerializer(serializers.ModelSerializer):
    
     occupation_category_detail = OccupationCategorySerializer(read_only=True)
     occupation_category_id = serializers.PrimaryKeyRelatedField(
-        source='occupation_category', queryset=occupation_category.objects.all(), write_only=True
+        source='occupation_category', queryset=occupation_category.objects.all()
     )
 
     occupation_detail = OccupationSerializer(read_only=True)
     occupation_id = serializers.PrimaryKeyRelatedField(
-        source='occupation', queryset=occupation.objects.all(), write_only=True
+        source='occupation', queryset=occupation.objects.all()
     )
 
     occupation_subcategory_detail = OccupationSubcategorySerializer(read_only=True)
     occupation_subcategory_id = serializers.PrimaryKeyRelatedField(
-        source='occupation_subcategory', queryset=occupation_subcategory.objects.all(), write_only=True
+        source='occupation_subcategory', queryset=occupation_subcategory.objects.all()
     )
 
     keywords = serializers.ListField(
-        child=serializers.CharField(), write_only=True, required=False
+        child=serializers.CharField(), required=False, write_only=True
     )
+
     keywords_display = serializers.SerializerMethodField()
+
+    
 
     class Meta:
         model = User
