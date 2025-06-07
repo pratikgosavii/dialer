@@ -85,10 +85,9 @@ class User(AbstractUser):
 
     keywords = models.TextField(help_text="Comma-separated keywords")
     
-    occupation_category = models.ForeignKey("masters.occupation_category", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("masters.occupation", on_delete=models.CASCADE)
-    occupation_subcategory = models.ForeignKey("masters.occupation_subcategory", on_delete=models.CASCADE)
-    occupation_category = models.ForeignKey("masters.occupation_category", on_delete=models.CASCADE)
+    occupation_category = models.ForeignKey("masters.occupation_category", on_delete=models.CASCADE, null=True, blank=True)
+    occupation = models.ForeignKey("masters.occupation", on_delete=models.CASCADE, null=True, blank=True)
+    occupation_subcategory = models.ForeignKey("masters.occupation_subcategory", on_delete=models.CASCADE, null=True, blank=True)
 
     facebook = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)
