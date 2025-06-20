@@ -89,6 +89,11 @@ class User(AbstractUser):
     occupation = models.ForeignKey("masters.occupation", on_delete=models.CASCADE, null=True, blank=True)
     occupation_subcategory = models.ForeignKey("masters.occupation_subcategory", on_delete=models.CASCADE, null=True, blank=True)
 
+    user_video = models.FileField(upload_to='user_videos/', null=True, blank=True)
+    aadhaar_card_image = models.FileField(upload_to='aadhaar_cards/', null=True, blank=True)
+
+    go_live = models.BooleanField(default=True)
+    
     facebook = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)
     linkedin = models.URLField(null=True, blank=True)

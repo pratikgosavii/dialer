@@ -37,7 +37,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'mobile', 'is_active', 'name', 'language', 'email', 'dob', 'gender',
-            'marital_status', 'location', 'income', 'profession',
+            'marital_status', 'location', 'income', 'profession', 'user_video', 'aadhaar_card_image', 'go_live',
             'profile_photo', 'keywords', 'keywords_display',
             'occupation_category_detail', 'occupation_detail', 'occupation_subcategory_detail',
             'occupation_category_id', 'occupation_id', 'occupation_subcategory_id'
