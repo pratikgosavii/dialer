@@ -82,7 +82,7 @@ class User(AbstractUser):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     marital_status = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, null=True, blank=True)
-
+    description = models.CharField(max_length=100, null=True, blank=True)
     keywords = models.TextField(help_text="Comma-separated keywords")
     
     occupation_category = models.ForeignKey("masters.occupation_category", on_delete=models.CASCADE, null=True, blank=True)
