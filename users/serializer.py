@@ -10,17 +10,17 @@ from masters.serializers import *
 class UserProfileSerializer(serializers.ModelSerializer):
    
    
-    occupation_category_detail = OccupationCategorySerializer(read_only=True)
+    occupation_category_detail = OccupationCategorySerializer(source='occupation_category', read_only=True)
     occupation_category_id = serializers.PrimaryKeyRelatedField(
         source='occupation_category', queryset=occupation_category.objects.all()
     )
 
-    occupation_detail = OccupationSerializer(read_only=True)
+    occupation_detail = OccupationSerializer(source='occupation',read_only=True)
     occupation_id = serializers.PrimaryKeyRelatedField(
         source='occupation', queryset=occupation.objects.all()
     )
 
-    occupation_subcategory_detail = OccupationSubcategorySerializer(read_only=True)
+    occupation_subcategory_detail = OccupationSubcategorySerializer(source='occupation_subcategory', read_only=True)
     occupation_subcategory_id = serializers.PrimaryKeyRelatedField(
         source='occupation_subcategory', queryset=occupation_subcategory.objects.all()
     )
