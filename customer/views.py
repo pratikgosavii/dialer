@@ -2,9 +2,13 @@ from rest_framework import viewsets, permissions
 from .models import ScamComplaint
 from .serializers import ScamComplaintSerializer
 
+
+from rest_framework import parsers
+
 class ScamComplaintViewSet(viewsets.ModelViewSet):
     serializer_class = ScamComplaintSerializer
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
 
     def get_queryset(self):
         return ScamComplaint.objects.filter(user=self.request.user)
