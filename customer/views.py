@@ -5,16 +5,19 @@ from .serializers import ScamComplaintSerializer
 
 from rest_framework import parsers
 
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+
 class ScamComplaintViewSet(viewsets.ModelViewSet):
     serializer_class = ScamComplaintSerializer
     permission_classes = [permissions.IsAuthenticated]
-    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]  # ✅ Add this
 
     def get_queryset(self):
         return ScamComplaint.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
 
 
 from django.http import JsonResponse
