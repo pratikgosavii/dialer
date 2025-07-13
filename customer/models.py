@@ -55,3 +55,12 @@ class ScamProof(models.Model):
     complaint = models.ForeignKey(ScamComplaint, on_delete=models.CASCADE, related_name='proofs')
     file = models.FileField(upload_to='scam_proofs/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+class ScamSocialMedia(models.Model):
+    complaint = models.ForeignKey(ScamComplaint, on_delete=models.CASCADE, related_name='socials')
+    platform = models.CharField(max_length=50, choices=ScamComplaint.SOCIAL_MEDIA_CHOICES)
+    username = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.platform}: {self.username}"
