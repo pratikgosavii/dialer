@@ -7,7 +7,7 @@ class ScamComplaintForm(forms.ModelForm):
         model = ScamComplaint
         fields = [
             'name', 'website', 'company_name', 'phone_number', 'email', 'location',
-            'category', 'description', 'social_media', 'status'
+            'category', 'description', 'status'
         ]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -18,7 +18,6 @@ class ScamComplaintForm(forms.ModelForm):
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'social_media': forms.Select(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
         }
 

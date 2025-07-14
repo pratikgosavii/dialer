@@ -42,8 +42,6 @@ class ScamComplaint(models.Model):
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     
-    social_media = models.CharField(max_length=50, choices=SOCIAL_MEDIA_CHOICES)
-
     is_resolved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
