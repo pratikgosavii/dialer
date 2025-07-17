@@ -51,8 +51,6 @@ from masters.models import *
 
 class User(AbstractUser):
 
-   
-
     firebase_uid = models.CharField(max_length=128, unique=True, null=True, blank=True)
     mobile = models.CharField(max_length=15, unique=True, db_index=True)
 
@@ -93,6 +91,7 @@ class User(AbstractUser):
     aadhaar_card_image = models.FileField(upload_to='aadhaar_cards/', null=True, blank=True)
 
     go_live = models.BooleanField(default=True)
+    verified = models.BooleanField(default=False)
     
     facebook = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)

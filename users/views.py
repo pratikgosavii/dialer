@@ -188,6 +188,22 @@ def customer_user_list(request):
     return render(request, 'user_list.html', { 'data' : data})
 
 
+def view_user(request, user_id):
+
+    data = User.objects.get(id = user_id)
+
+    return render(request, 'view_user.html', { 'data' : data})
+
+
+def verified_user(request, user_id):
+
+    data = User.objects.get(id = user_id)
+    data.verified = True
+    data.save()
+
+    return redirect('view_user', user_id=data.id)
+
+
 
 
 def user_list(request):

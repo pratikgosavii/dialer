@@ -1,6 +1,20 @@
 from django import forms
 from django.forms import inlineformset_factory
-from .models import ScamComplaint, ScamProof
+from .models import *
+
+
+# forms.py
+
+class ScamSocialMediaForm(forms.ModelForm):
+    class Meta:
+        model = ScamSocialMedia
+        fields = ['platform', 'username']
+        widgets = {
+            'platform': forms.Select(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
 
 class ScamComplaintForm(forms.ModelForm):
     class Meta:
@@ -35,4 +49,14 @@ ScamProofFormSet = inlineformset_factory(
     form=ScamProofForm,
     extra=1,  # Number of extra blank proof forms shown
     can_delete=False
+)
+
+
+
+ScamSocialMediaFormSet = inlineformset_factory(
+    ScamComplaint, ScamSocialMedia,
+    fields=['platform', 'username'],
+    form=ScamSocialMediaForm,
+    extra=1,
+    can_delete=True
 )

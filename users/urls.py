@@ -27,6 +27,8 @@ urlpatterns = [
     path('reset-password/', ResetPasswordView.as_view(), name='ResetPasswordView'),
     path('logout/', logout_page, name='logout'),
 
+    path('view-user/<user_id>', view_user, name='view_user'),
+    path('verified/<user_id>', verified_user, name='verified'),
     path('user_list/', user_list, name='user_list'),
     
 

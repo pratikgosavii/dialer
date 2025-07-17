@@ -63,6 +63,10 @@ class occupation(models.Model):
     name = models.CharField(max_length=225, blank=True, null=True)
 
 
+    def __str__(self):
+        return self.name
+    
+
 class home_banner(models.Model):
     title = models.CharField(max_length=225, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -92,3 +96,7 @@ class FAQ(models.Model):
 class ScamCategory(models.Model):
 
     name = models.CharField(max_length=255)
+
+    
+    def __str__(self):
+        return self.name

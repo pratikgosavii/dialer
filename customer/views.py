@@ -114,25 +114,36 @@ def add_complaint(request):
 
 def update_complaint(request, complaint_id):
     
-    complaint = get_object_or_404(ScamComplaint, pk=complaint_id, user=request.user)
+    complaint = get_object_or_404(ScamComplaint, pk=complaint_id)
 
     if request.method == 'POST':
         complaint_form = ScamComplaintForm(request.POST, instance=complaint)
-        proof_formset = ScamProofFormSet(request.POST, request.FILES, instance=complaint)
+        proof_formset = ScamProofFormSet(request.POST, request.FILES, instance=complaint, prefix='proofs')
+        social_formset = ScamSocialMediaFormSet(request.POST, instance=complaint, prefix='socials')
 
-        if complaint_form.is_valid() and proof_formset.is_valid():
+        if complaint_form.is_valid() and proof_formset.is_valid() and social_formset.is_valid():
             complaint = complaint_form.save()
             proof_formset.save()
-            return redirect('list_complaint')  # change to your list or detail page URL
+            social_formset.save()
+            return redirect('list_complaint')  # ✅ your desired success page
     else:
         complaint_form = ScamComplaintForm(instance=complaint)
-        proof_formset = ScamProofFormSet(instance=complaint)
+        proof_formset = ScamProofFormSet(instance=complaint, prefix='proofs')
+        social_formset = ScamSocialMediaFormSet(instance=complaint, prefix='socials')
 
     return render(request, 'add_complaint.html', {
         'complaint_form': complaint_form,
         'proof_formset': proof_formset,
+        'social_formset': social_formset,
         'update': True,
     })
+
+
+def delete_social(request, social_id):
+    social = get_object_or_404(ScamSocialMedia, id=social_id)
+    complaint_id = social.complaint.id
+    social.delete()
+    return redirect('update_complaint', complaint_id=complaint_id)
 
 
 def list_complaint(request):

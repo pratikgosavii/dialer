@@ -1,0 +1,139 @@
+{% extends "partials/adminBase.html" %}
+{% load static %}
+
+{% block title %}User Detail{% endblock title %}
+
+{% block extra_css %}
+<link href="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+    body {
+        background-color: #f0d28c;
+        padding-bottom: 20px;
+    }
+
+    .user-card {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 20px;
+    }
+
+    .user-info {
+        margin-bottom: 12px;
+    }
+
+    .user-info label {
+        font-weight: bold;
+        color:   !important;
+    }
+
+    .user-info span {
+        color: #333;
+    }
+
+    .social-links a {
+        display: block;
+        color: #007bff;
+        word-break: break-all;
+    }
+
+    .user-video a {
+        color: #28a745;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- Page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0">User Detail</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User detail card -->
+            <div class="container">
+                <div class="user-card">
+                <div class="col-md-6 user-info">
+                    <label>Profile Photo:</label><br>
+                    {% if data.profile_photo %}
+                        <img src="{{ data.profile_photo.url }}" alt="Profile Photo" class="img-thumbnail" style="max-width: 200px;" />
+                    {% else %}
+                        <span>No Profile Photo</span>
+                    {% endif %}
+                </div>
+
+
+                   
+
+                    <div class="row">
+                        <div class="col-md-6 user-info"><label>Name:</label> <span>{{ data.name }}</span></div>
+                        <div class="col-md-6 user-info"><label>Mobile:</label> <span>{{ data.mobile }}</span></div>
+                        <div class="col-md-6 user-info"><label>Email:</label> <span>{{ data.email }}</span></div>
+                        <div class="col-md-6 user-info"><label>Gender:</label> <span>{{ data.gender }}</span></div>
+                        <div class="col-md-6 user-info"><label>Date of Birth:</label> <span>{{ data.dob }}</span></div>
+                        <div class="col-md-6 user-info"><label>Location:</label> <span>{{ data.location }}</span></div>
+                        <div class="col-md-6 user-info"><label>Marital Status:</label> <span>{{ data.marital_status }}</span></div>
+                        <div class="col-md-12 user-info"><label>Description:</label> <span>{{ data.description }}</span></div>
+                        <div class="col-md-6 user-info"><label>Keywords:</label> <span>{{ data.keywords }}</span></div>
+                        <div class="col-md-6 user-info"><label>Language:</label> <span>{{ data.language }}</span></div>
+                        <div class="col-md-6 user-info"><label>Profession:</label> <span>{{ data.profession }}</span></div>
+                        <div class="col-md-6 user-info"><label>Income:</label> <span>{{ data.income }}</span></div>
+                        <div class="col-md-6 user-info"><label>Occupation Category:</label> <span>{{ data.occupation_category }}</span></div>
+                        <div class="col-md-6 user-info"><label>Occupation:</label> <span>{{ data.occupation }}</span></div>
+                        <div class="col-md-6 user-info"><label>Occupation Subcategory:</label> <span>{{ data.occupation_subcategory }}</span></div>
+                        <div class="col-md-6 user-info"><label>Go Live:</label> <span>{{ data.go_live }}</span></div>
+
+                        <div class="col-md-6 user-info user-video">
+                            <label>Video:</label>
+                            {% if data.user_video %}
+                                <a href="{{ data.user_video.url }}" target="_blank">Watch Video</a>
+                            {% else %}
+                                <span>No Video</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-12 user-info social-links">
+                            <label>Social Media:</label>
+                            {% if data.facebook %}<a href="{{ data.facebook }}" target="_blank">Facebook</a>{% endif %}
+                            {% if data.instagram %}<a href="{{ data.instagram }}" target="_blank">Instagram</a>{% endif %}
+                            {% if data.linkedin %}<a href="{{ data.linkedin }}" target="_blank">LinkedIn</a>{% endif %}
+                            {% if data.twitter %}<a href="{{ data.twitter }}" target="_blank">Twitter</a>{% endif %}
+                        </div>
+
+                        {% if not data.verified %}
+                            <a href="{% url 'verified' user_id=data.id %}" class="btn btn-success">Mark as Verified</a>
+                        {% else %}
+                            <button class="btn btn-secondary" disabled>Already Verified</button>
+                        {% endif %}
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block footer %}
+        {% include 'partials/footer.html' %}
+    {% endblock footer %}
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock extra_js %}

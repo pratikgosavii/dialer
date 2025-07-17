@@ -26,8 +26,8 @@ class ScamComplaint(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('in_review', 'In Review'),
-        ('resolved', 'Resolved'),
-        ('rejected', 'Rejected'),
+        ('mark_as_safe', 'Mark As Safe'),
+        ('mark_as_scam', 'Mark As Scam'),
     ]
 
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="scam_complaints")
