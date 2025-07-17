@@ -50,10 +50,27 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">{{ title }}</h4>
+                        <h4 class="mb-sm-0 font-size-18">Add Banner</h4>
                     </div>
                 </div>
             </div>
+
+            {% if form.errors %}
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+
             <div class="container">
                 <div class="form-container">
                     <form method="POST" enctype="multipart/form-data">
