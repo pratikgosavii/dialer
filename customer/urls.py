@@ -19,7 +19,7 @@ urlpatterns = router.urls + [
     path('update-complaint/<complaint_id>', update_complaint, name='update_complaint'),  # create or fetch list of admins
     path('list-complaint/', list_complaint, name='list_complaint'),  # create or fetch list of admins
     path('delete-complaint/<complaint_id>', delete_complaint, name='delete_complaint'),  # create or fetch list of admins
-path('delete-social/<int:social_id>/', delete_social, name='delete_social'),
+    path('delete-social/<int:social_id>/', delete_social, name='delete_social'),
     path('proof/<int:pk>/delete/', delete_proof, name='delete_proof'),
 
 

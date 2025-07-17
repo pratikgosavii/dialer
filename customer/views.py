@@ -148,9 +148,11 @@ def delete_social(request, social_id):
 
 def list_complaint(request):
 
-    data = ScamComplaint.objects.all()
+    data = ScamComplaintFilter(request.GET, queryset=ScamComplaint.objects.all())
 
-    return render(request, 'list_complaint.html', {'data' : data})
+
+
+    return render(request, 'list_complaint.html', {'data' : data.qs, 'filter': ScamComplaintFilter,})
 
 
 def delete_complaint(request, complaint_id):
