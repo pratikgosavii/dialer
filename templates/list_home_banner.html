@@ -108,7 +108,8 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Title</th>
-                                                <th>Description</th>
+                                                <th>Image</th>
+                                                <th>URL</th>
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
@@ -118,7 +119,14 @@
                                                 <tr>
                                                     <td>{{ forloop.counter }}</td>
                                                     <td>{{ i.title }}</td>
-                                                    <td>{{ i.description }}</td>
+                                                    <td>
+    {% if i.url %}
+        <a href="{{ i.url }}" target="_blank">{{ i.url }}</a>
+    {% else %}
+        N/A
+    {% endif %}
+</td>
+                                                    <td>{{ i.url }}</td>
                                                   
                                                     <td>
                                                         <!-- remove Button -->
