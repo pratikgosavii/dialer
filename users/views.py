@@ -205,9 +205,13 @@ def verified_user(request, user_id):
 
 
 
+from .filters import UserFilter
+
 
 def user_list(request):
 
-    data = User.objects.all()
-
-    return render(request, 'user_list.html', { 'data' : data})
+    user_filter = UserFilter(request.GET, queryset=User.objects.all())
+    return render(request, 'user_list.html', {
+        'filter': user_filter,
+        'data': user_filter.qs  # filtered queryset
+    })

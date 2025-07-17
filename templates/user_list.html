@@ -94,6 +94,21 @@
                         </div>
                     </div>
                 </div>
+
+                <form method="get" class="row g-3 mb-4 border p-3 rounded bg-light">
+  {% for field in filter.form %}
+    <div class="col-md-3">
+      {{ field.label_tag }} {{ field }}
+    </div>
+  {% endfor %}
+  <div class="col-md-12">
+    <button type="submit" class="btn btn-primary">🔍 Filter</button>
+    <a href="{% url 'user_list' %}" class="btn btn-secondary">🔄 Reset</a>
+  </div>
+</form>
+
+
+
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
@@ -119,7 +134,6 @@
       
         <th>Go Live</th>
         <th>Verified</th>
-        <th>Video</th>
         <th>Action</th>
     </tr>
 </thead>
@@ -139,13 +153,7 @@
                 <td>{{ i.go_live }}</td>
                 <td>{{ i.verified }}</td>
                 
-                <td>
-                    {% if i.user_video %}
-                        <a href="{{ i.user_video.url }}" target="_blank">View Video</a>
-                    {% else %}
-                        No Video
-                    {% endif %}
-                </td>
+               
                 <td>
                     <a href="{% url 'view_user' i.id %}" title="Edit">
                         <i class="bi bi-pencil-square text-primary"></i>
