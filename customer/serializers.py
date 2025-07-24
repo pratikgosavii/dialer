@@ -20,7 +20,6 @@ class ScamSocialMediaSerializer(serializers.ModelSerializer):
 
 
 import json
-
 class ScamComplaintSerializer(serializers.ModelSerializer):
     proofs = ScamProofSerializer(many=True, write_only=True, required=False)
     uploaded_proofs = ScamProofSerializer(many=True, read_only=True, source='proofs')
