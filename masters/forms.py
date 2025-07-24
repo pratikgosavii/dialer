@@ -28,10 +28,6 @@ class coupon_Form(forms.ModelForm):
 
 class home_banner_Form(forms.ModelForm):
 
-    is_for_web = forms.BooleanField(
-        required=False,
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
-    )
 
     class Meta:
         model = home_banner

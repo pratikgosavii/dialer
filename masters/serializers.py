@@ -31,7 +31,7 @@ class coupon_serializer(serializers.ModelSerializer):
 class HomeBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = home_banner
-        fields = ['image'] 
+        fields = '__all__'
     
     def get_image(self, obj):
         request = self.context.get('request')

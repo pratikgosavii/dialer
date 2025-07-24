@@ -71,7 +71,6 @@ class home_banner(models.Model):
     title = models.CharField(max_length=225, blank=True, null=True)
     image = models.ImageField(upload_to='homeBanners/')
     url = models.URLField(max_length=500, blank=True, null=True)  # ✅ Added URL field
-    is_for_web = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
