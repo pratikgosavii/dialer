@@ -5,10 +5,12 @@ from .models import *
 from masters.models import *
 from masters.serializers import *
 
-
+from customer.serializers import ScamComplaintSerializer
 
 class UserProfileSerializer(serializers.ModelSerializer):
-   
+    
+    scam_complaints_marked = serializers.SerializerMethodField()
+
     occupation_category_detail = OccupationCategorySerializer(source='occupation_category', read_only=True)
     occupation_category = serializers.PrimaryKeyRelatedField(
         queryset=occupation_category.objects.all(), required=False
@@ -36,7 +38,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'marital_status', 'location', 'income', 'profession', 'user_video', 'aadhaar_card_image',
             'go_live', 'profile_photo', 'keywords', 'keywords_display', 'description',
             'occupation_category', 'occupation', 'occupation_subcategory',
-            'occupation_category_detail', 'occupation_detail', 'occupation_subcategory_detail'
+            'occupation_category_detail', 'occupation_detail', 'occupation_subcategory_detail', 'scam_complaints_marked'
         ]
         read_only_fields = [
             'id', 'mobile', 'occupation_category_detail',
@@ -54,3 +56,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         if keywords is not None:
             validated_data["keywords"] = ",".join(keywords)
         return super().update(instance, validated_data)
+    
+    def get_scam_complaints_marked(self, obj):
+        complaints = obj.scam_complaints.filter(status='mark_as_scam')
+        return ScamComplaintSerializer(complaints, many=True).data
