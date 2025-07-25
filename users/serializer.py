@@ -1,4 +1,5 @@
 
+from customer.models import ScamComplaint
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from .models import *
@@ -58,5 +59,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
     
     def get_scam_complaints_marked(self, obj):
-        complaints = obj.scam_complaints.filter(status='mark_as_scam')
+        print(obj.mobile)
+        complaints =ScamComplaint.objects.filter(
+            status='mark_as_scam',
+            phone_number=obj.mobile
+        )
+        print(complaints)
         return ScamComplaintSerializer(complaints, many=True).data
