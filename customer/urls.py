@@ -23,5 +23,8 @@ urlpatterns = router.urls + [
     path('proof/<int:pk>/delete/', delete_proof, name='delete_proof'),
 
 
+    path("stream/get-chat-token/", get_chat_token.as_view()),
+    # path("stream/get-vendor-chat-token/", get_chat_vendor_token.as_view()),
+
 
 ]

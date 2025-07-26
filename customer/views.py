@@ -204,3 +204,68 @@ class SearchUserView(APIView):
 
         serialized_users = UserProfileSerializer(users, many=True)
         return Response(serialized_users.data)
+    
+
+
+# views.py
+from stream_chat import StreamChat
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.conf import settings
+import os
+
+
+from .utils import generate_channel_id
+
+
+    
+class get_chat_token(APIView):
+    
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        api_key = os.getenv("STREAM_API_KEY")
+        api_secret = os.getenv("STREAM_API_SECRET")
+
+        print("✅ STREAM_API_KEY from .env:", os.getenv("STREAM_API_KEY"))
+
+        print(api_key)
+        print(api_secret)
+
+        if not api_key or not api_secret:
+            return Response({"error": "Missing Stream credentials"}, status=500)
+
+        user_id = str(request.user.id)
+
+        other_user_id = request.data.get("user_id")
+
+        # Generate consistent channel ID
+        channel_id = generate_channel_id(user_id, other_user_id)
+
+        # Initialize Stream client
+        client = StreamChat(api_key=api_key, api_secret=api_secret)
+
+        # Upsert both users
+      
+        client.upsert_user({
+            "id": str(user_id),
+            "name": request.user.get_full_name() or request.user.username,
+        })
+
+        client.upsert_user({
+            "id": str(other_user_id),
+            "name": request.user.get_full_name() or request.user.username,
+        })
+
+
+        # Create token for authenticated user
+        token = client.create_token(user_id)
+
+        return Response({
+            "user_id": user_id,
+            "other_user_id": other_user_id,
+            "token": token,
+            "channel_id": channel_id,
+            "api_key": api_key,  # for frontend use
+        })
+
