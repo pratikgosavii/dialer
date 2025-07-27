@@ -227,18 +227,14 @@ class get_chat_token(APIView):
         api_key = os.getenv("STREAM_API_KEY")
         api_secret = os.getenv("STREAM_API_SECRET")
 
-        print("✅ STREAM_API_KEY from .env:", os.getenv("STREAM_API_KEY"))
-
-        print(api_key)
-        print(api_secret)
-
         if not api_key or not api_secret:
             return Response({"error": "Missing Stream credentials"}, status=500)
 
         user_id = str(request.user.id)
-
         other_user_id = request.query_params.get("other_user_id")
 
+        if not other_user_id:
+            return Response({"error": "Missing other_user_id"}, status=400)
 
         # Generate consistent channel ID
         channel_id = generate_channel_id(user_id, other_user_id)
@@ -246,20 +242,34 @@ class get_chat_token(APIView):
         # Initialize Stream client
         client = StreamChat(api_key=api_key, api_secret=api_secret)
 
-        # Upsert both users
-      
+        # Upsert authenticated user
         client.upsert_user({
-            "id": str(user_id),
+            "id": user_id,
             "name": request.user.get_full_name() or request.user.username,
         })
 
+        # Optional: you should fetch or lookup other user's name from DB here
+        # For demo, assigning "User {id}" if name is unknown
+        other_user_name = f"User {other_user_id}"
         client.upsert_user({
-            "id": str(other_user_id),
-            "name": request.user.get_full_name() or request.user.username,
+            "id": other_user_id,
+            "name": other_user_name,
         })
 
+        other_user = User.objects.get(id=other_user_id)
 
-        # Create token for authenticated user
+        # Create or get channel (with a name/title)
+        channel = client.channel(
+            channel_type="messaging",
+            channel_id=channel_id,
+            data={
+                "members": [user_id, other_user_id],
+                "name": other_user.user.get_full_name() or other_user.user.username,
+            }
+        )
+        channel.create(user_id)
+
+        # Create token for the authenticated user
         token = client.create_token(user_id)
 
         return Response({
