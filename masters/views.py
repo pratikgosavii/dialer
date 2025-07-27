@@ -24,34 +24,47 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
+from stream_chat import StreamChat
 
+import os
 
+api_key = os.getenv("STREAM_API_KEY")
+api_secret = os.getenv("STREAM_API_SECRET")
 
 @login_required(login_url='login_admin')
 def add_coupon(request):
 
-    if request.method == 'POST':
 
-        forms = coupon_Form(request.POST, request.FILES)
+    # Initialize the client with your API key and secret (must be server-side secret)
+    api_key = "your_api_key"
+    api_secret = "your_api_secret"
+    client = StreamChat(api_key=api_key, api_secret=api_secret)
 
-        if forms.is_valid():
-            forms.save()
-            return redirect('list_coupon')
+    # Query channels (adjust limit or filters if needed)
+    response = client.query_channels(
+        filter_conditions={},  # Fetch all types
+        limit=100              # You can change this to higher if needed
+    )
+
+    channels = response.get("channels", [])
+    print(f"Found {len(channels)} channels")
+
+    # Loop through and delete each channel
+    for ch in channels:
+        channel_data = ch.get("channel", {})
+        cid = channel_data.get("cid")
+
+        if cid:
+            ch_type, ch_id = cid.split(":")
+            try:
+                channel = client.channel(ch_type, ch_id)
+                print(f"✅ Deleting channel: {cid}")
+                channel.delete(hard_delete=True)
+            except Exception as e:
+                print(f"❌ Error deleting {cid}: {e}")
         else:
-            print(forms.errors)
-            context = {
-                'form': forms
-            }
-            return render(request, 'add_coupon.html', context)
-    
-    else:
+            print(f"⚠️ Skipping invalid channel entry: {ch}")
 
-        forms = coupon_Form()
-
-        context = {
-            'form': forms
-        }
-        return render(request, 'add_coupon.html', context)
 
         
 
