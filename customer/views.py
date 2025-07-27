@@ -264,7 +264,7 @@ class get_chat_token(APIView):
             channel_id=channel_id,
             data={
                 "members": [user_id, other_user_id],
-                "name": other_user.user.get_full_name() or other_user.user.username,
+                "name": other_user.get_full_name() or other_user.username,
             }
         )
         channel.create(user_id)
