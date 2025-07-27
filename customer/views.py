@@ -270,3 +270,42 @@ class get_chat_token(APIView):
             "api_key": api_key,  # for frontend use
         })
 
+
+    
+class get_token(APIView):
+    
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        api_key = os.getenv("STREAM_API_KEY")
+        api_secret = os.getenv("STREAM_API_SECRET")
+
+   
+
+        if not api_key or not api_secret:
+            return Response({"error": "Missing Stream credentials"}, status=500)
+
+        user_id = str(request.user.id)
+
+       
+        # Initialize Stream client
+        client = StreamChat(api_key=api_key, api_secret=api_secret)
+
+        # Upsert both users
+      
+        client.upsert_user({
+            "id": str(user_id),
+            "name": request.user.get_full_name() or request.user.username,
+        })
+
+      
+
+        # Create token for authenticated user
+        token = client.create_token(user_id)
+
+        return Response({
+            "user_id": user_id,
+            "token": token,
+            "api_key": api_key,  # for frontend use
+        })
+
