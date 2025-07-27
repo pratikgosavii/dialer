@@ -237,7 +237,7 @@ class get_chat_token(APIView):
 
         user_id = str(request.user.id)
 
-        other_user_id = request.data.get("user_id")
+        other_user_id = request.data.get("other_user_id")
 
         # Generate consistent channel ID
         channel_id = generate_channel_id(user_id, other_user_id)
